@@ -10,14 +10,14 @@ class DbbookSpider(scrapy.Spider):
     def parse(self, response):
         #print response.body
         selector = scrapy.Selector(response)
-        books = selector.xpath('//div@class=bd doulist-subject')
+        books = selector.xpath('//div[@class="bd doulist-subject"]')
         for each in  books:
             selector = scrapy.Selector(response)
             books = selector.xpath('//div[@class="bd doulist-subject"]')
             for each in books:
                 title = each.xpath('div[@class="title"]/a/text()').extract()[0]
                 rate = each.xpath('div[@class="rating"]/span[@class="rating_nums"]/text()').extract()[0]
-                author = re.search('<div class="abstract">(.*?)<br', each.extract(), re.S).group(1)
+                author = re.search('<div class="abstract">(.*?)</br>', each.extract(), re.S).group(1)
                 print '标题:' + title
                 print '评分:' + rate
                 print author
